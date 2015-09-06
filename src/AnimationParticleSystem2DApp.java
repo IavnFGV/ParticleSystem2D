@@ -9,6 +9,7 @@ import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import particlesystem2d.controller.AnimationController;
+import particlesystem2d.controller.PropertiesEditorController;
 import particlesystem2d.model.Emitter;
 import particlesystem2d.model.FireEmitter;
 import particlesystem2d.model.Particle;
@@ -26,10 +27,13 @@ public class AnimationParticleSystem2DApp extends Application {
     private List<Particle> particles = new LinkedList<>();
     private GraphicsContext graphicsContext;
 
+
+    private AnimationController animationController;
+    PropertiesEditorController propertiesEditorController;
+
     private Parent createWorld() {
         FXMLLoader loader = new FXMLLoader();
         Parent root = null;
-        AnimationController animationController = null;
         try {
             root = loader.load(getClass().getResourceAsStream("/particlesystem2d/fxml/Animation.fxml"));
             animationController = loader.getController();
@@ -42,6 +46,18 @@ public class AnimationParticleSystem2DApp extends Application {
         return root;
     }
 
+    private Parent createPropertiesEditorWorld() {
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = null;
+        try {
+            root = loader.load(getClass().getResourceAsStream("/particlesystem2d/fxml/PropertiesEditorController.fxml"));
+            propertiesEditorController = loader.getController();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return root;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -55,13 +71,20 @@ public class AnimationParticleSystem2DApp extends Application {
         };
         animationTimer.start();
         primaryStage.show();
+
+        Stage propertiesStage = new Stage();
+        propertiesStage.setScene(new Scene(createPropertiesEditorWorld()));
+        propertiesStage.setTitle("Properties Editor");
+        propertiesEditorController.initPropertyShit(emitter);
+        propertiesStage.show();
     }
+
 
     private void onUpdate() {
         graphicsContext.setGlobalAlpha(1);
         graphicsContext.setGlobalBlendMode(BlendMode.SRC_OVER);
         graphicsContext.setFill(Color.BLACK);
-        graphicsContext.fillRect(0,0,600,600);
+        graphicsContext.fillRect(0, 0, 600, 600);
 
         particles.addAll(emitter.emit(300, 300));
         for (Iterator<Particle> it = particles.iterator(); it.hasNext(); ) {
