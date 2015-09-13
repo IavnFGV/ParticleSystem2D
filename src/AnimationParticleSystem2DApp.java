@@ -76,7 +76,7 @@ public class AnimationParticleSystem2DApp extends Application {
             public void handle(long now) {
                 onUpdate();
                 propertiesStage.setTitle("FPS = " + tracker.getAverageFPS());
-                tracker.resetAverageFPS();
+              //  tracker.resetAverageFPS();
             }
         };
 
@@ -89,6 +89,7 @@ public class AnimationParticleSystem2DApp extends Application {
         propertiesStage.show();
         tracker = PerformanceTracker.getSceneTracker(primaryStage.getScene());
         animationTimer.start();
+       /// graphicsContext.setGlobalBlendMode(BlendMode.ADD);
 
 
 //        service.scheduleWithFixedDelay(new Runnable() {
@@ -134,32 +135,32 @@ public class AnimationParticleSystem2DApp extends Application {
 
 
     private void onUpdate() {
-        graphicsContext.setGlobalAlpha(1);
-        graphicsContext.setGlobalBlendMode(BlendMode.SRC_OVER);
+      //  graphicsContext.setGlobalAlpha(1);
+        //graphicsContext.setGlobalBlendMode(BlendMode.SRC_OVER);
         graphicsContext.setFill(Color.BLACK);
         graphicsContext.fillRect(0, 0, 600, 600);
 
         particles.addAll(emitter.emit(300, 300));
-//        for (int i = 0; i < particles.size(); i++) {
-//            Particle p =  particles.get(i);
-//            p.update();
-//            if (!p.isAlive()){
-//                particles.remove(i);
-//                continue;
-//            }
-//            p.render(graphicsContext);
-//
-//        }
-        for (Iterator<Particle> it = particles.iterator(); it.hasNext(); ) {
-            Particle p = it.next();
+        for (int i = 0; i < particles.size(); i++) {
+            Particle p =  particles.get(i);
             p.update();
-            if (!p.isAlive()) {
-                it.remove();
+            if (!p.isAlive()){
+                particles.remove(i);
                 continue;
             }
-            // p.render(graphicsContext);
+            p.render(graphicsContext);
+
         }
-        render();
+//        for (Iterator<Particle> it = particles.iterator(); it.hasNext(); ) {
+//            Particle p = it.next();
+//            p.update();
+//            if (!p.isAlive()) {
+//                it.remove();
+//                continue;
+//            }
+//            // p.render(graphicsContext);
+//        }
+//        render();
     }
 
     public static void main(String[] args) {
