@@ -62,8 +62,8 @@ public class Particle {
 
            g.setGlobalAlpha(life);
        //   setGlobalBlendMode(blendMode);
-          g.setFill(color);
-         g.fillOval(x, y, radius, radius);
+//          g.setFill(color);
+//         g.fillOval(x, y, radius, radius);
         g.drawImage(images[lifeSpan], x, y);
     }
 }
